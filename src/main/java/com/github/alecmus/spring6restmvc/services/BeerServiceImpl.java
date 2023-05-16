@@ -86,7 +86,7 @@ public class BeerServiceImpl implements BeerService {
                 .price(beer.getPrice())
                 .build();
 
-        beerMap.put(beer.getId(), savedBeer);
+        beerMap.put(savedBeer.getId(), savedBeer);
 
         return savedBeer;
     }
