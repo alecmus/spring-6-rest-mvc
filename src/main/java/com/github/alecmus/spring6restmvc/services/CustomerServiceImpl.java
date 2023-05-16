@@ -2,6 +2,7 @@ package com.github.alecmus.spring6restmvc.services;
 
 import com.github.alecmus.spring6restmvc.model.Customer;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -43,13 +44,30 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(UUID uuid) {
-        return customerMap.get(uuid);
+    public void patchCustomerById(UUID customerId, Customer customer) {
+        Customer existing = customerMap.get(customerId);
+
+        boolean updated = false;
+
+        if (StringUtils.hasText(customer.getName())) {
+            existing.setName(customer.getName());
+            updated = true;
+        }
+
+        if (updated) {
+            existing.setUpdateDate(LocalDateTime.now());
+        }
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
-        return new ArrayList<>(customerMap.values());
+    public void deleteCustomerById(UUID customerId) {
+        customerMap.remove(customerId);
+    }
+
+    @Override
+    public void updateCustomerById(UUID customerId, Customer customer) {
+        Customer existing = customerMap.get(customerId);
+        existing.setName(customer.getName());
     }
 
     @Override
@@ -58,25 +76,23 @@ public class CustomerServiceImpl implements CustomerService {
         Customer savedCustomer = Customer.builder()
                 .id(UUID.randomUUID())
                 .version(1)
-                .name(customer.getName())
-                .createdDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
+                .createdDate(LocalDateTime.now())
+                .name(customer.getName())
                 .build();
 
-        customerMap.put(savedCustomer.getId(), customer);
+        customerMap.put(savedCustomer.getId(), savedCustomer);
 
         return savedCustomer;
     }
 
     @Override
-    public void updateCustomerById(UUID customerId, Customer customer) {
-        Customer existing = customerMap.get(customerId);
-        existing.setName(customer.getName());
-        existing.setUpdateDate(LocalDateTime.now());
+    public Customer getCustomerById(UUID uuid) {
+        return customerMap.get(uuid);
     }
 
     @Override
-    public void deleteCustomerById(UUID customerId) {
-        customerMap.remove(customerId);
+    public List<Customer> getAllCustomers() {
+        return new ArrayList<>(customerMap.values());
     }
 }
