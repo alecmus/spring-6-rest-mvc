@@ -20,9 +20,10 @@ public class BeerController {
     private final BeerService beerService;
 
     @PostMapping
-    public ResponseEntity handlePost(@RequestBody Beer beer) {
+    public ResponseEntity handlePost(@RequestBody Beer beer){
 
         Beer savedBeer = beerService.saveNewBeer(beer);
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/beer/" + savedBeer.getId().toString());
 
@@ -30,15 +31,16 @@ public class BeerController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Beer> listBeers() {
+    public List<Beer> listBeers(){
         return beerService.listBeers();
     }
 
     @RequestMapping(value = "{beerId}", method = RequestMethod.GET)
-    public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
+    public Beer getBeerById(@PathVariable("beerId") UUID beerId){
 
         log.debug("Get Beer by Id - in controller");
 
         return beerService.getBeerById(beerId);
     }
+
 }
