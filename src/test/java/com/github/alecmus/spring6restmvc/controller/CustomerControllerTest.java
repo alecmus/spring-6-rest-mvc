@@ -1,6 +1,5 @@
 package com.github.alecmus.spring6restmvc.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.alecmus.spring6restmvc.model.Customer;
 import com.github.alecmus.spring6restmvc.services.CustomerService;
