@@ -29,7 +29,7 @@ public class BootstrapData implements CommandLineRunner {
 
     private void loadBeerData() {
 
-        if (beerRepository.count() == 0) {
+        if (beerRepository.count() == 0){
 
             Beer beer1 = Beer.builder()
                     .beerName("Galaxy Cat")
@@ -65,6 +65,7 @@ public class BootstrapData implements CommandLineRunner {
             beerRepository.save(beer2);
             beerRepository.save(beer3);
         }
+
     }
 
     private void loadCustomerData() {
@@ -91,6 +92,7 @@ public class BootstrapData implements CommandLineRunner {
 
             customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3));
         }
+
     }
 
 }

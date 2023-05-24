@@ -18,6 +18,7 @@ public class BeerServiceImpl implements BeerService {
     private Map<UUID, BeerDTO> beerMap;
 
     public BeerServiceImpl() {
+
         this.beerMap = new HashMap<>();
 
         BeerDTO beer1 = BeerDTO.builder()
@@ -62,55 +63,48 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
+    public Optional<BeerDTO> patchBeerById(UUID beerId, BeerDTO beer) {
+
+        BeerDTO existing = beerMap.get(beerId);
+
+        if (StringUtils.hasText(beer.getBeerName())){
+            existing.setBeerName(beer.getBeerName());
+        }
+
+        if (beer.getBeerStyle() != null) {
+            existing.setBeerStyle(beer.getBeerStyle());
+        }
+
+        if (beer.getPrice() != null) {
+            existing.setPrice(beer.getPrice());
+        }
+
+        if (beer.getQuantityOnHand() != null){
+            existing.setQuantityOnHand(beer.getQuantityOnHand());
+        }
+
+        if (StringUtils.hasText(beer.getUpc())) {
+            existing.setUpc(beer.getUpc());
+        }
+
+        return Optional.of(existing);
+    }
+
+    @Override
+    public Boolean deleteById(UUID beerId) {
+        beerMap.remove(beerId);
+        return true;
+    }
+
+    @Override
     public Optional<BeerDTO> updateBeerById(UUID beerId, BeerDTO beer) {
+
         BeerDTO existing = beerMap.get(beerId);
         existing.setBeerName(beer.getBeerName());
         existing.setPrice(beer.getPrice());
         existing.setUpc(beer.getUpc());
         existing.setQuantityOnHand(beer.getQuantityOnHand());
-        existing.setUpdateDate(LocalDateTime.now());
         return Optional.of(existing);
-    }
-
-    @Override
-    public void deleteById(UUID beerId) {
-        beerMap.remove(beerId);
-    }
-
-    @Override
-    public void patchBeerById(UUID beerId, BeerDTO beer) {
-        BeerDTO existing = beerMap.get(beerId);
-
-        boolean updated = false;
-
-        if (StringUtils.hasText(beer.getBeerName())){
-            existing.setBeerName(beer.getBeerName());
-            updated = true;
-        }
-
-        if (beer.getBeerStyle() != null) {
-            existing.setBeerStyle(beer.getBeerStyle());
-            updated = true;
-        }
-
-        if (beer.getPrice() != null) {
-            existing.setPrice(beer.getPrice());
-            updated = true;
-        }
-
-        if (beer.getQuantityOnHand() != null){
-            existing.setQuantityOnHand(beer.getQuantityOnHand());
-            updated = true;
-        }
-
-        if (StringUtils.hasText(beer.getUpc())) {
-            existing.setUpc(beer.getUpc());
-            updated = true;
-        }
-
-        if (updated) {
-            existing.setUpdateDate(LocalDateTime.now());
-        }
     }
 
     @Override
