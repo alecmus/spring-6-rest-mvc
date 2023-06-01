@@ -1,6 +1,7 @@
 package com.github.alecmus.spring6restmvc.controller;
 
 import com.github.alecmus.spring6restmvc.model.BeerDTO;
+import com.github.alecmus.spring6restmvc.model.BeerStyle;
 import com.github.alecmus.spring6restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,8 +64,9 @@ public class BeerController {
     }
 
     @GetMapping(value = BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName){
-        return beerService.listBeers(beerName);
+    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName,
+                                   @RequestParam(required = false)BeerStyle beerStyle){
+        return beerService.listBeers(beerName, beerStyle);
     }
 
 
