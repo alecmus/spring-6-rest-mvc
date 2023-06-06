@@ -54,7 +54,13 @@ public class Beer {
     private BigDecimal price;
 
     @OneToMany(mappedBy = "beer")
-    Set<BeerOrderLine> beerOrderLines;
+    private Set<BeerOrderLine> beerOrderLines;
+
+    @ManyToMany
+    @JoinTable(name = "beer_category",
+            joinColumns = @JoinColumn(name = "beer_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 
     @CreationTimestamp
     private LocalDateTime createdDate;
