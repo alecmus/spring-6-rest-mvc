@@ -2,6 +2,7 @@ package com.github.alecmus.spring6restmvc.repositories;
 
 import com.github.alecmus.spring6restmvc.entities.Beer;
 import com.github.alecmus.spring6restmvc.entities.BeerOrder;
+import com.github.alecmus.spring6restmvc.entities.BeerOrderShipment;
 import com.github.alecmus.spring6restmvc.entities.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ class BeerOrderRepositoryTest {
     void testBeerOrders() {
         BeerOrder beerOrder = BeerOrder.builder()
                 .customerRef("Test order")
+                .beerOrderShipment(BeerOrderShipment.builder()
+                        .trackingNumber("1235r")
+                        .build())
                 .customer(testCustomer)
                 .build();
 
