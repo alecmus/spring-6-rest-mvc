@@ -1,5 +1,7 @@
 package com.github.alecmus.spring6restmvc.controller;
 
+import com.atlassian.oai.validator.OpenApiInteractionValidator;
+import com.atlassian.oai.validator.restassured.OpenApiValidationFilter;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +22,10 @@ import static io.restassured.RestAssured.given;
 @Import(BeerControllerRestAssuredTest.TestConfig.class)
 @ComponentScan(basePackages = "com.github.alecmus.spring6restmvc")
 public class BeerControllerRestAssuredTest {
+
+    OpenApiValidationFilter filter = new OpenApiValidationFilter(OpenApiInteractionValidator
+            .createForSpecificationUrl("oa3.yml")
+            .build());
 
     public static class TestConfig {
         @Bean
@@ -43,6 +49,7 @@ public class BeerControllerRestAssuredTest {
     void testListBeers() {
         given().contentType(ContentType.JSON)
                 .when()
+                .filter(filter)
                 .get("/api/v1/beer")
                 .then()
                 .assertThat().statusCode(200);
